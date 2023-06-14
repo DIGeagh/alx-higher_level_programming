@@ -1,8 +1,13 @@
 #!/usr/bin/python3
+
 def square_matrix_simple(matrix=[]):
-    new_matrix = matrix.copy()
-
+    # Create a new matrix with the same size as the input matrix
+    result = [[0 for _ in row] for row in matrix]
+    
+    # Compute the square value for each element in the input matrix
     for i in range(len(matrix)):
-        new_matrix[i] = list(map(lambda x: x**2, matrix[i]))
+        for j in range(len(matrix[i])):
+            result[i][j] = matrix[i][j] ** 2
+    
+    return result
 
-    return (new_matrix)
