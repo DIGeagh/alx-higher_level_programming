@@ -17,17 +17,16 @@ class Rectangle {
     }
   }
 
+  rotate () {
+    const aux = this.width;
+    this.width = this.height;
+    this.height = aux;
+  }
 
   double () {
     this.width *= 2;
     this.height *= 2;
   }
 }
-
-  rotate () {
-    const aux = this.width;
-    this.width = this.height;
-    this.height = aux;
-  }
 
 module.exports = Rectangle;
