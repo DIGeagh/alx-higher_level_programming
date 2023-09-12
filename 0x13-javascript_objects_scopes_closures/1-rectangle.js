@@ -1,5 +1,4 @@
 #!/usr/bin/node
-
 class Rectangle {
   constructor(w, h) {
     // Initialize instance attributes width and height
