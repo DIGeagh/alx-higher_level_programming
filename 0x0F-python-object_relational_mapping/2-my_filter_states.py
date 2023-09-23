@@ -1,54 +1,17 @@
 #!/usr/bin/python3
-"""
-This script lists all states from the database hbtn_0e_0_usa
-"""
-
+"""  lists all states from the database hbtn_0e_0_usa """
 import MySQLdb
 import sys
 
+
 if __name__ == "__main__":
-    # Check if the number of arguments is correct
-    if len(sys.argv) != 5:
-        print("Usage: {} <mysql_username> <mysql_password> <database_name> <state_name>".format(sys.argv[0]))
-        sys.exit(1)
-
-    # Get command line arguments
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database_name = sys.argv[3]
-    state_name = sys.argv[4]
-
-    try:
-        # Create a connection to the MySQL server
-        db = MySQLdb.connect(
-            host="localhost",
-            port=3306,
-            user=username,
-            passwd=password,
-            db=database_name,
-        )
-
-        # Create a cursor object to interact with the database
-        cursor = db.cursor()
-
-        # Prepare the SQL query using format with user input
-        query = "SELECT * FROM states WHERE name LIKE BINARY '{}' ORDER BY id".format(state_name)
-
-        # Execute the SQL query
-        cursor.execute(query)
-
-        # Fetch all the rows as a list of tuples
-        states = cursor.fetchall()
-
-        # Print the results
-        for state in states:
-            print(state)
-
-    except MySQLdb.Error as e:
-        print("Error:", e)
-    finally:
-        # Close the cursor and database connection
-        if cursor:
-            cursor.close()
-        if db:
-            db.close()
+    db = MySQLdb.connect(host="localhost", user=sys.argv[1],
+                         passwd=sys.argv[2], db=sys.argv[3], port=3306)
+    cur = db.cursor()
+    cur.execute("SELECT * FROM states WHERE name LIKE BINARY '{}'"
+                .format(sys.argv[4]))
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    cur.close()
+    db.close()
