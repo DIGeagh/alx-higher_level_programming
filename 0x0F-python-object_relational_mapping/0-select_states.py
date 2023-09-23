@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This script lists all states from the database hbtn_0e_0_usa
+Lists all states from the database hbtn_0e_0_usa
 """
 
 import MySQLdb
@@ -12,33 +12,34 @@ if __name__ == "__main__":
         print("Usage: {} <mysql_username> <mysql_password> <database_name>".format(sys.argv[0]))
         sys.exit(1)
 
-    # Get command line arguments
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database_name = sys.argv[3]
+    try:
+        # Create a connection to the MySQL server
+        db = MySQLdb.connect(
+            host="localhost",
+            port=3306,
+            user=sys.argv[1],
+            passwd=sys.argv[2],
+            db=sys.argv[3],
+        )
 
-    # Create a connection to the MySQL server
-    db = MySQLdb.connect(
-        host="localhost",
-        port=3306,
-        user=username,
-        passwd=password,
-        db=database_name,
-    )
+        # Create a cursor object to interact with the database
+        cursor = db.cursor()
 
-    # Create a cursor object to interact with the database
-    cursor = db.cursor()
+        # Execute the SQL query to select all states and order by states.id
+        cursor.execute("SELECT * FROM states ORDER BY id")
 
-    # Execute the SQL query to select all states and order by states.id
-    cursor.execute("SELECT * FROM states ORDER BY id")
+        # Fetch all the rows as a list of tuples
+        states = cursor.fetchall()
 
-    # Fetch all the rows as a list of tuples
-    states = cursor.fetchall()
+        # Print the results
+        for state in states:
+            print(state)
 
-    # Print the results
-    for state in states:
-        print(state)
-
-    # Close the cursor and database connection
-    cursor.close()
-    db.close()
+    except MySQLdb.Error as e:
+        print("Error:", e)
+    finally:
+        # Close the cursor and database connection
+        if cursor:
+            cursor.close()
+        if db:
+            db.close()
