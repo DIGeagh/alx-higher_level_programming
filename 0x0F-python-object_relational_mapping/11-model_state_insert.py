@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Module that retrieves and prints the states with\
-        letter a from a MySQL database using SQLAlchemy."""
+"""Module that adds a new state to a MySQL database using SQLAlchemy."""
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -18,8 +17,11 @@ if __name__ == "__main__":
     # Create a session object
     session = Session()
 
-    # Retrieve the states with letter 'a' from the
-    # database and print its ID and name
-    for state in session.query(State).order_by(State.id):
-        if "a" in state.name:
-            print("{}: {}".format(state.id, state.name))
+    # Create a new State object for Louisiana
+    louisiana = State(name="Louisiana")
+    # Add the new state to the session
+    session.add(louisiana)
+    # Commit the session to persist the changes
+    session.commit()
+    # Print the ID of the newly added state
+    print(louisiana.id)
