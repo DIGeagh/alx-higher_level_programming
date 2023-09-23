@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This script lists all states with a name starting with 'N' (uppercase)
+This script lists all states with a name starting with 'N' (case-insensitive)
 from the database hbtn_0e_0_usa
 """
 
@@ -31,8 +31,8 @@ if __name__ == "__main__":
         # Create a cursor object to interact with the database
         cursor = db.cursor()
 
-        # Execute the SQL query to select states starting with 'N' and order by states.id
-        cursor.execute("SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id")
+        # Execute the SQL query to select states starting with 'N' (case-insensitive)
+        cursor.execute("SELECT * FROM states WHERE name LIKE 'N%' COLLATE utf8_general_ci ORDER BY id")
 
         # Fetch all the rows as a list of tuples
         states = cursor.fetchall()
