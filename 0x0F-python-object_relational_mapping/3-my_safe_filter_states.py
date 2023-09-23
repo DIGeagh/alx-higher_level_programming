@@ -31,11 +31,14 @@ if __name__ == "__main__":
         # Create a cursor object to interact with the database
         cursor = db.cursor()
 
+        # Sanitize the state_name input to prevent SQL injection
+        sanitized_state_name = state_name.replace("'", "''")
+
         # Prepare the SQL query with a parameterized query to avoid SQL injection
         query = "SELECT * FROM states WHERE name LIKE %s ORDER BY id"
         
-        # Execute the SQL query with the state_name as a parameter
-        cursor.execute(query, (state_name,))
+        # Execute the SQL query with the sanitized state_name as a parameter
+        cursor.execute(query, (sanitized_state_name,))
 
         # Fetch all the rows as a list of tuples
         states = cursor.fetchall()
